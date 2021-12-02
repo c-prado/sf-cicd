@@ -8,6 +8,9 @@ jobs:
     name: Build app and deploy to Azure
     runs-on: ubuntu-latest
     steps: 
-      - name: Demo
+      - uses: actions/checkout@v2
+      - name: npm install and build
         run: 
+          # build the app using npm
           echo "I got the script to run"
+          npm install
