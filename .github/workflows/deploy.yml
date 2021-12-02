@@ -3,14 +3,26 @@ on:
     branches:
       - main
 
+env: 
+  AZURE_WEBAPP_NAME: salesforce-demo3
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+
 jobs:
   build-and-deploy:
     name: Build app and deploy to Azure
     runs-on: ubuntu-latest
     steps: 
-      - uses: actions/checkout@v2
+      - name: copy the source code
+        uses: actions/checkout@v2
+
       - name: npm install and build
         run: 
           # build the app using npm
-          echo "I got the script to run"
           npm install
+
+      - name: deploy to azure app service
+        uses: azure/webapp-deploy@v2
+        with: 
+          app-name: ${{env.AZURE_WEBAPP_NAME}}
+          publish-profile: ${{secrets.AZURE_WEBAPP_PUBLISH_PROFILE}} 
+          package: ${{env.AZURE_WEBAPP_PACKAGE_PATH}}
